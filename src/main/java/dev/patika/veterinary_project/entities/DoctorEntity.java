@@ -37,11 +37,11 @@ public class DoctorEntity {
     @Column(name = "doctor_city")
     private String city;
 
-    @OneToMany (mappedBy = "doctor")
+    @OneToMany (mappedBy = "doctorEntity")
     @JsonIgnore
     private List<AppointmentEntity> appointmentEntityList;
 
-    @OneToMany (mappedBy = "doctor")
+    @OneToMany (mappedBy = "doctorEntity")
     @JsonIgnore
     private List<AvailableDateEntity> availableDateEntityList;
 }

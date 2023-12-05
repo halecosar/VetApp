@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -19,8 +20,8 @@ public class AppointmentEntity {
     @Column(name = "appointment_id")
     private Long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "appointment_date")
-    @Temporal(TemporalType.DATE)
     private LocalDateTime appointmentDate;
 
     @ManyToOne

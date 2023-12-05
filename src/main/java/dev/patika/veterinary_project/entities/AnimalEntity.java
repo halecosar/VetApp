@@ -40,11 +40,11 @@ public class AnimalEntity {
     @Temporal(TemporalType.DATE)
     private LocalDate dateofBirth;
 
-    @OneToMany(mappedBy = "animal")
+    @OneToMany(mappedBy = "animalEntity")
     @JsonIgnore
     private List<VaccineEntity> vaccineEntities;
 
-    @OneToMany (mappedBy = "animal")
+    @OneToMany (mappedBy = "animalEntity")
     @JsonIgnore
     private List<AppointmentEntity> appointmentEntities;
 

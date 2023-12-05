@@ -12,4 +12,6 @@ public interface IAnimalService {
     AnimalEntity getById(Long id);
     void delete(Long id);
     List<AnimalEntity> findAll();
+
+
 }

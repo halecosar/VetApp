@@ -20,8 +20,8 @@ public class AvailableDateEntity {
     @Column(name = "av_date_id")
     private Long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "av_date")
-    @Temporal(TemporalType.DATE)
     private LocalDateTime availableDateDate;
 
     @ManyToOne

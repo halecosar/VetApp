@@ -7,7 +7,7 @@ import java.util.List;
 public interface IVaccineService {
 
     VaccineEntity save (VaccineEntity vaccine);
-    VaccineEntity update (VaccineEntity doctor);
+    VaccineEntity update (VaccineEntity vaccine);
     VaccineEntity getById(Long id);
     void delete(Long id);
     List<VaccineEntity> findAll();

@@ -37,7 +37,7 @@ public class CustomerEntity {
     @Column(name = "customer_city")
     private String city;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customerEntity")
     @JsonIgnore
     private List<AnimalEntity> animalEntityList;
 }
