@@ -3,19 +3,20 @@ package dev.patika.veterinary_project.business.concretes;
 import dev.patika.veterinary_project.business.abstracts.ICustomerService;
 import dev.patika.veterinary_project.dao.ICustomerRepo;
 import dev.patika.veterinary_project.entities.CustomerEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerManager implements ICustomerService {
     private final ICustomerRepo customerRepo;
+    private final EntityManager entityManager;
 
-    public CustomerManager(ICustomerRepo customerRepo) {
+    public CustomerManager(ICustomerRepo customerRepo, EntityManager entityManager) {
         this.customerRepo = customerRepo;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -43,18 +44,14 @@ public class CustomerManager implements ICustomerService {
         return this.customerRepo.findAll();
     }
 
-    /* @Override
-    public List<CustomerEntity> filterCustomerByName(String name) {
-        List<CustomerEntity> customerEntities = new ArrayList<>();
-        for (CustomerEntity customer : customerEntities) {
-            if (customer.getName().equalsIgnoreCase(name)) {
-                customerEntities.add(customer);
-            }
-        }
-        return customerEntities;
+    @Override
+    public List<CustomerEntity> getFilteredCustomerByName(String name) {
+        // JPQL sorgusu ile isme göre filtreleme
+        String jpql = "SELECT c FROM CustomerEntity c WHERE c.name ILIKE :customerName";
 
+        Query query = entityManager.createQuery(jpql, CustomerEntity.class);
+        query.setParameter("customerName",  "%" + name + "%");
 
-    }*/
-
-
+        return query.getResultList();
+    }
 }

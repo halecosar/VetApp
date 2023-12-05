@@ -6,6 +6,8 @@ import dev.patika.veterinary_project.entities.CustomerEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/animals")
 public class AnimalController {
@@ -36,5 +38,19 @@ public class AnimalController {
     public AnimalEntity getById(@PathVariable("id") Long id) {
         return this.iAnimalService.getById(id);
     }
+
+    @GetMapping("/getFilteredAnimalByName/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AnimalEntity> getFilteredAnimalByName(@PathVariable("name") String name) {
+        return this.iAnimalService.getFilteredAnimalByName(name);
+    }
+
+    @GetMapping("/getAnimalsByCustomerId/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AnimalEntity> getAnimalsByCustomerId(@PathVariable("id") Long id) {
+        return this.iAnimalService.getAnimalsByCustomerId(id);
+    }
+
+
 }
 

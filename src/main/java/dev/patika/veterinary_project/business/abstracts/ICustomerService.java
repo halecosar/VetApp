@@ -14,7 +14,7 @@ public interface ICustomerService {
     void delete(Long id);
     List<CustomerEntity> findAll();
 
-   // public List<CustomerEntity> filterCustomerByName(String name);
+    public List<CustomerEntity> getFilteredCustomerByName(String name);
 
 
 }

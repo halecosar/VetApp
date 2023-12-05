@@ -5,6 +5,8 @@ import dev.patika.veterinary_project.entities.CustomerEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/customers")
 public class CustomerController {
@@ -30,10 +32,17 @@ public class CustomerController {
     void delete (@PathVariable("id") Long id){
         this.customerService.delete(id);
     }
+
     @GetMapping("/getById/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerEntity getById(@PathVariable("id") Long id) {
         return this.customerService.getById(id);
+    }
+
+    @GetMapping("/getFilteredCustomerByName/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CustomerEntity> getFilteredCustomerByName(@PathVariable("name") String name) {
+        return this.customerService.getFilteredCustomerByName(name);
     }
 }
 
