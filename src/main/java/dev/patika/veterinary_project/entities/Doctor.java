@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 
 @Table(name = "doctors")
-public class DoctorEntity {
+public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "doctor_id", columnDefinition = "serial")
@@ -37,11 +37,11 @@ public class DoctorEntity {
     @Column(name = "doctor_city")
     private String city;
 
-    @OneToMany (mappedBy = "doctorEntity")
+    @OneToMany (mappedBy = "doctor")
     @JsonIgnore
-    private List<AppointmentEntity> appointmentEntityList;
+    private List<Appointment> appointmentList;
 
-    @OneToMany (mappedBy = "doctorEntity")
+    @OneToMany (mappedBy = "doctor")
     @JsonIgnore
-    private List<AvailableDateEntity> availableDateEntityList;
+    private List<AvailableDate> availableDateList;
 }

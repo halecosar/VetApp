@@ -2,7 +2,7 @@ package dev.patika.veterinary_project.business.concretes;
 
 import dev.patika.veterinary_project.business.abstracts.IAvailableDateService;
 import dev.patika.veterinary_project.dao.IAvailableDateRepo;
-import dev.patika.veterinary_project.entities.AvailableDateEntity;
+import dev.patika.veterinary_project.entities.AvailableDate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,17 +16,17 @@ public class AvailableDateManager implements IAvailableDateService {
     }
 
     @Override
-    public AvailableDateEntity save(AvailableDateEntity availableDate) {
+    public AvailableDate save(AvailableDate availableDate) {
         return this.availableDateRepo.save(availableDate);
     }
 
     @Override
-    public AvailableDateEntity update(AvailableDateEntity availableDate) {
+    public AvailableDate update(AvailableDate availableDate) {
         return this.availableDateRepo.save(availableDate);
     }
 
     @Override
-    public AvailableDateEntity getById(Long id) {
+    public AvailableDate getById(Long id) {
         return this.availableDateRepo.findById(id).orElseThrow();
     }
 
@@ -36,7 +36,7 @@ public class AvailableDateManager implements IAvailableDateService {
     }
 
     @Override
-    public List<AvailableDateEntity> findAll() {
+    public List<AvailableDate> findAll() {
         return this.availableDateRepo.findAll();
     }
 }

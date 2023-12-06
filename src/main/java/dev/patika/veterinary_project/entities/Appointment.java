@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 @Table(name = "appointments")
-public class AppointmentEntity {
+public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "appointment_id")
@@ -26,9 +26,9 @@ public class AppointmentEntity {
 
     @ManyToOne
     @JoinColumn(name = "appointment_animal_id", referencedColumnName = "animal_id")
-    private AnimalEntity animalEntity;
+    private Animal animal;
 
     @ManyToOne
     @JoinColumn(name = "appointment_doctor_id", referencedColumnName = "doctor_id")
-    private DoctorEntity doctorEntity;
+    private Doctor doctor;
 }

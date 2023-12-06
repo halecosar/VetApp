@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 
 @Table(name = "animals")
-public class AnimalEntity {
+public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "animal_id", columnDefinition = "serial")
@@ -40,16 +40,16 @@ public class AnimalEntity {
     @Temporal(TemporalType.DATE)
     private LocalDate dateofBirth;
 
-    @OneToMany(mappedBy = "animalEntity")
+    @OneToMany(mappedBy = "animal")
     @JsonIgnore
-    private List<VaccineEntity> vaccineEntities;
+    private List<Vaccine> vaccine;
 
-    @OneToMany (mappedBy = "animalEntity")
+    @OneToMany (mappedBy = "animal")
     @JsonIgnore
-    private List<AppointmentEntity> appointmentEntities;
+    private List<Appointment> appointment;
 
     @ManyToOne
     @JoinColumn(name = "animal_customer_id", referencedColumnName = "customer_id")
-    private CustomerEntity customerEntity;
+    private Customer customer;
 
 }

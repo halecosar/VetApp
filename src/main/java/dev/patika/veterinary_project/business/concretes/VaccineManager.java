@@ -2,7 +2,7 @@ package dev.patika.veterinary_project.business.concretes;
 
 import dev.patika.veterinary_project.business.abstracts.IVaccineService;
 import dev.patika.veterinary_project.dao.IVaccineRepo;
-import dev.patika.veterinary_project.entities.VaccineEntity;
+import dev.patika.veterinary_project.entities.Vaccine;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,17 +16,17 @@ public class VaccineManager implements IVaccineService {
     }
 
     @Override
-    public VaccineEntity save(VaccineEntity vaccine) {
+    public Vaccine save(Vaccine vaccine) {
         return this.vaccineRepo.save(vaccine);
     }
 
     @Override
-    public VaccineEntity update(VaccineEntity vaccine) {
+    public Vaccine update(Vaccine vaccine) {
         return this.vaccineRepo.save(vaccine);
     }
 
     @Override
-    public VaccineEntity getById(Long id) {
+    public Vaccine getById(Long id) {
         return this.vaccineRepo.findById(id).orElseThrow();
     }
 
@@ -36,7 +36,7 @@ public class VaccineManager implements IVaccineService {
     }
 
     @Override
-    public List<VaccineEntity> findAll() {
+    public List<Vaccine> findAll() {
         return this.vaccineRepo.findAll();
     }
 }

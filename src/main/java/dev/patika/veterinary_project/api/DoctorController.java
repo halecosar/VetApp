@@ -1,8 +1,7 @@
 package dev.patika.veterinary_project.api;
 
 import dev.patika.veterinary_project.business.abstracts.IDoctorService;
-import dev.patika.veterinary_project.entities.AnimalEntity;
-import dev.patika.veterinary_project.entities.DoctorEntity;
+import dev.patika.veterinary_project.entities.Doctor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public DoctorEntity save(@RequestBody DoctorEntity doctor) { //entitiy'i gönderdik.
+    public Doctor save(@RequestBody Doctor doctor) { //entitiy'i gönderdik.
         return this.doctorService.save(doctor);
     }
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public DoctorEntity update (@RequestBody DoctorEntity doctor) {
+    public Doctor update (@RequestBody Doctor doctor) {
         return this.doctorService.update(doctor);
     }
 
@@ -32,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
     }
     @GetMapping("/getById/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public DoctorEntity getById(@PathVariable("id") Long id) {
+    public Doctor getById(@PathVariable("id") Long id) {
         return this.doctorService.getById(id);
     }
 }

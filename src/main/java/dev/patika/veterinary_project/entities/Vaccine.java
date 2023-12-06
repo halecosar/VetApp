@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 
 @Table(name = "vaccines")
-public class VaccineEntity {
+public class Vaccine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +36,5 @@ public class VaccineEntity {
 
     @ManyToOne
     @JoinColumn(name = "animal_vaccine_id", referencedColumnName = "animal_id")
-    private AnimalEntity animalEntity;
+    private Animal animal;
 }

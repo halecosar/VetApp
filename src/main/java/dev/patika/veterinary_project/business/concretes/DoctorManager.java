@@ -2,7 +2,7 @@ package dev.patika.veterinary_project.business.concretes;
 
 import dev.patika.veterinary_project.business.abstracts.IDoctorService;
 import dev.patika.veterinary_project.dao.IDoctorRepo;
-import dev.patika.veterinary_project.entities.DoctorEntity;
+import dev.patika.veterinary_project.entities.Doctor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,17 +16,17 @@ public class DoctorManager implements IDoctorService {
     }
 
     @Override
-    public DoctorEntity save(DoctorEntity doctor) {
+    public Doctor save(Doctor doctor) {
         return doctorRepo.save(doctor);
     }
 
     @Override
-    public DoctorEntity update(DoctorEntity doctor) {
+    public Doctor update(Doctor doctor) {
         return doctorRepo.save(doctor);
     }
 
     @Override
-    public DoctorEntity getById(Long id) {
+    public Doctor getById(Long id) {
         return doctorRepo.findById(id).orElseThrow();
     }
 
@@ -36,7 +36,7 @@ public class DoctorManager implements IDoctorService {
     }
 
     @Override
-    public List<DoctorEntity> findAll() {
+    public List<Doctor> findAll() {
         return this.doctorRepo.findAll();
     }
 }

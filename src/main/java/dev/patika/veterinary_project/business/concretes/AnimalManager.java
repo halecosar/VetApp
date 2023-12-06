@@ -2,11 +2,10 @@ package dev.patika.veterinary_project.business.concretes;
 
 import dev.patika.veterinary_project.business.abstracts.IAnimalService;
 import dev.patika.veterinary_project.dao.IAnimalRepo;
-import dev.patika.veterinary_project.entities.AnimalEntity;
-import dev.patika.veterinary_project.entities.CustomerEntity;
+import dev.patika.veterinary_project.entities.Animal;
+import dev.patika.veterinary_project.entities.Customer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,17 +21,17 @@ public class AnimalManager implements IAnimalService {
     }
 
     @Override
-    public AnimalEntity save(AnimalEntity animal) {
+    public Animal save(Animal animal) {
         return this.animalRepo.save(animal);
     }
 
     @Override
-    public AnimalEntity update(AnimalEntity animal) {
+    public Animal update(Animal animal) {
         return this.animalRepo.save(animal);
     }
 
     @Override
-    public AnimalEntity getById(Long id) {
+    public Animal getById(Long id) {
         return this.animalRepo.findById(id).orElseThrow();
     }
 
@@ -42,23 +41,31 @@ this.animalRepo.deleteById(id);
     }
 
     @Override
-    public List<AnimalEntity> findAll() {
+    public List<Animal> findAll() {
         return this.animalRepo.findAll();
     }
 
     @Override
-    public List<AnimalEntity> getFilteredAnimalByName(String name) {
+    public List<Animal> getFilteredAnimalByName(String name) {
         // JPQL sorgusu ile isme göre filtreleme
-        String jpql = "SELECT a FROM AnimalEntity a WHERE a.name ILIKE :animalName";
+        String jpql = "SELECT a FROM Animal a WHERE a.name ILIKE :animalName";
 
-        Query query = entityManager.createQuery(jpql, CustomerEntity.class);
+        Query query = entityManager.createQuery(jpql, Customer.class);
         query.setParameter("animalName",  "%" + name + "%");
 
         return query.getResultList();
     }
 
+    @Override
+    public List<Animal> getAnimalsByCustomerId(Long customerId) {
 
-   
+        String jpql = "SELECT a FROM Animal a WHERE a.customer.id = :customer_id";
+
+        Query query = entityManager.createQuery(jpql, Customer.class);
+        query.setParameter("customer_id", customerId );
+
+        return query.getResultList();
+    }
 
 
 }

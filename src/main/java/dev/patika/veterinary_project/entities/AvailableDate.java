@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 @Table(name = "available_dates")
-public class AvailableDateEntity {
+public class AvailableDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +26,5 @@ public class AvailableDateEntity {
 
     @ManyToOne
     @JoinColumn(name = "availabledate_doctor_id", referencedColumnName = "doctor_id")
-    private DoctorEntity doctorEntity;
+    private Doctor doctor;
 }

@@ -1,7 +1,7 @@
 package dev.patika.veterinary_project.api;
 
 import dev.patika.veterinary_project.business.abstracts.ICustomerService;
-import dev.patika.veterinary_project.entities.CustomerEntity;
+import dev.patika.veterinary_project.entities.Customer;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +18,12 @@ public class CustomerController {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerEntity save(@RequestBody CustomerEntity customer) { //entitiy'i gönderdik.
+    public Customer save(@RequestBody Customer customer) { //entitiy'i gönderdik.
         return this.customerService.save(customer);
     }
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public CustomerEntity update (@RequestBody CustomerEntity customer) {
+    public Customer update (@RequestBody Customer customer) {
         return this.customerService.update(customer);
     }
 
@@ -35,13 +35,13 @@ public class CustomerController {
 
     @GetMapping("/getById/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CustomerEntity getById(@PathVariable("id") Long id) {
+    public Customer getById(@PathVariable("id") Long id) {
         return this.customerService.getById(id);
     }
 
     @GetMapping("/getFilteredCustomerByName/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public List<CustomerEntity> getFilteredCustomerByName(@PathVariable("name") String name) {
+    public List<Customer> getFilteredCustomerByName(@PathVariable("name") String name) {
         return this.customerService.getFilteredCustomerByName(name);
     }
 }

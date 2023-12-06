@@ -2,7 +2,7 @@ package dev.patika.veterinary_project.business.concretes;
 
 import dev.patika.veterinary_project.business.abstracts.IAppointmentService;
 import dev.patika.veterinary_project.dao.IAppointmentRepo;
-import dev.patika.veterinary_project.entities.AppointmentEntity;
+import dev.patika.veterinary_project.entities.Appointment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,17 +16,17 @@ public class AppointmentManager implements IAppointmentService {
     }
 
     @Override
-    public AppointmentEntity save(AppointmentEntity appointment) {
+    public Appointment save(Appointment appointment) {
         return this.appointmentRepo.save(appointment);
     }
 
     @Override
-    public AppointmentEntity update(AppointmentEntity appointment) {
+    public Appointment update(Appointment appointment) {
         return this.appointmentRepo.save(appointment);
     }
 
     @Override
-    public AppointmentEntity getById(Long id) {
+    public Appointment getById(Long id) {
         return this.appointmentRepo.findById(id).orElseThrow();
     }
 
@@ -36,7 +36,7 @@ public class AppointmentManager implements IAppointmentService {
     }
 
     @Override
-    public List<AppointmentEntity> findAll() {
+    public List<Appointment> findAll() {
         return this.appointmentRepo.findAll();
     }
 }

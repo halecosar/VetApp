@@ -2,7 +2,7 @@ package dev.patika.veterinary_project.business.concretes;
 
 import dev.patika.veterinary_project.business.abstracts.ICustomerService;
 import dev.patika.veterinary_project.dao.ICustomerRepo;
-import dev.patika.veterinary_project.entities.CustomerEntity;
+import dev.patika.veterinary_project.entities.Customer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Service;
@@ -20,17 +20,17 @@ public class CustomerManager implements ICustomerService {
     }
 
     @Override
-    public CustomerEntity save(CustomerEntity customer) {
+    public Customer save(Customer customer) {
         return this.customerRepo.save(customer);
     }
 
     @Override
-    public CustomerEntity update(CustomerEntity customer) {
+    public Customer update(Customer customer) {
         return this.customerRepo.save(customer);
     }
 
     @Override
-    public CustomerEntity getById(Long id) {
+    public Customer getById(Long id) {
         return this.customerRepo.findById(id).orElseThrow();
     }
 
@@ -40,16 +40,16 @@ public class CustomerManager implements ICustomerService {
     }
 
     @Override
-    public List<CustomerEntity> findAll() {
+    public List<Customer> findAll() {
         return this.customerRepo.findAll();
     }
 
     @Override
-    public List<CustomerEntity> getFilteredCustomerByName(String name) {
+    public List<Customer> getFilteredCustomerByName(String name) {
         // JPQL sorgusu ile isme göre filtreleme
         String jpql = "SELECT c FROM CustomerEntity c WHERE c.name ILIKE :customerName";
 
-        Query query = entityManager.createQuery(jpql, CustomerEntity.class);
+        Query query = entityManager.createQuery(jpql, Customer.class);
         query.setParameter("customerName",  "%" + name + "%");
 
         return query.getResultList();

@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 
 @Table(name = "customers")
-public class CustomerEntity {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class CustomerEntity {
     @Column(name = "customer_city")
     private String city;
 
-    @OneToMany(mappedBy = "customerEntity")
+    @OneToMany(mappedBy = "customer")
     @JsonIgnore
-    private List<AnimalEntity> animalEntityList;
+    private List<Animal> animalList;
 }

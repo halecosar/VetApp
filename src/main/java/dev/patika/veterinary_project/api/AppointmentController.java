@@ -1,8 +1,7 @@
 package dev.patika.veterinary_project.api;
 
 import dev.patika.veterinary_project.business.abstracts.IAppointmentService;
-import dev.patika.veterinary_project.entities.AppointmentEntity;
-import dev.patika.veterinary_project.entities.VaccineEntity;
+import dev.patika.veterinary_project.entities.Appointment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +16,12 @@ public class AppointmentController {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public AppointmentEntity save(@RequestBody AppointmentEntity appointment) { //entitiy'i gönderdik.
+    public Appointment save(@RequestBody Appointment appointment) { //entitiy'i gönderdik.
         return this.appointmentService.save(appointment);
     }
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.OK)
-    public AppointmentEntity update (@RequestBody AppointmentEntity appointment) {
+    public Appointment update (@RequestBody Appointment appointment) {
         return this.appointmentService.update(appointment);
     }
 
@@ -33,7 +32,7 @@ public class AppointmentController {
     }
     @GetMapping("/getById/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AppointmentEntity getById(@PathVariable("id") Long id) {
+    public Appointment getById(@PathVariable("id") Long id) {
         return this.appointmentService.getById(id);
     }
 }
