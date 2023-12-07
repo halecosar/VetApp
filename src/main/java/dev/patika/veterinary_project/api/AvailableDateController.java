@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public AvailableDate save(@RequestBody AvailableDate availableDate) { //entitiy'i gönderdik.
+    public AvailableDate save(@RequestBody AvailableDate availableDate)  { //entitiy'i gönderdik.
         return this.availableDateService.save(availableDate);
     }
     @PutMapping("/update")

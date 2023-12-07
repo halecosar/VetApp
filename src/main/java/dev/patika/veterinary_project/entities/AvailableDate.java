@@ -1,11 +1,12 @@
 package dev.patika.veterinary_project.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -20,9 +21,11 @@ public class AvailableDate {
     @Column(name = "av_date_id")
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "av_date")
-    private LocalDateTime availableDateDate;
+    @Temporal(TemporalType.DATE)
+    //@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDate availableDateDate;
 
     @ManyToOne
     @JoinColumn(name = "availabledate_doctor_id", referencedColumnName = "doctor_id")
