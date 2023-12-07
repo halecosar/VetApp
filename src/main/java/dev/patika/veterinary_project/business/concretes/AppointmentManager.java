@@ -3,6 +3,10 @@ package dev.patika.veterinary_project.business.concretes;
 import dev.patika.veterinary_project.business.abstracts.IAppointmentService;
 import dev.patika.veterinary_project.dao.IAppointmentRepo;
 import dev.patika.veterinary_project.entities.Appointment;
+import dev.patika.veterinary_project.entities.AvailableDate;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,14 +14,25 @@ import java.util.List;
 @Service
 public class AppointmentManager implements IAppointmentService {
     private final IAppointmentRepo appointmentRepo;
+    private final EntityManager entityManager;
 
-    public AppointmentManager(IAppointmentRepo appointmentRepo) {
+    public AppointmentManager(IAppointmentRepo appointmentRepo, EntityManager entityManager) {
         this.appointmentRepo = appointmentRepo;
+        this.entityManager = entityManager;
     }
 
     @Override
     public Appointment save(Appointment appointment) {
-        return this.appointmentRepo.save(appointment);
+        List<AvailableDate> availableDates = checkAvailableDatesByDoctor(appointment);
+        if (availableDates.size() != 0) {
+            List<Appointment> appointments = checkAppointmentsDatesByDoctor(appointment);
+            if (appointments.size() ==0){return this.appointmentRepo.save(appointment);}
+            else{
+                throw new RuntimeException("Doktorun bu satte başka bir randevusu mevcuttur");
+            }
+        } else {
+            throw new RuntimeException("Doktorun girilen gün için müsaitliği bulunmamaktadır.");
+        }
     }
 
     @Override
@@ -38,5 +53,25 @@ public class AppointmentManager implements IAppointmentService {
     @Override
     public List<Appointment> findAll() {
         return this.appointmentRepo.findAll();
+    }
+
+    public List<AvailableDate> checkAvailableDatesByDoctor(Appointment appointment) {
+        String queryString = "SELECT a FROM AvailableDate a WHERE a.doctor.id = :doctor_id AND a.availableDateDate = :available_date";
+
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("doctor_id", appointment.getDoctor().getId());
+        query.setParameter("available_date", appointment.getAppointmentDate().toLocalDate());
+
+        return query.getResultList();
+    }
+
+    public List<Appointment> checkAppointmentsDatesByDoctor(Appointment appointment) {
+        String queryString = "SELECT a FROM Appointment a WHERE a.doctor.id = :doctor_id AND a.appointmentDate = :appointmentDate";
+
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("doctor_id", appointment.getDoctor().getId());
+        query.setParameter("appointmentDate", appointment.getAppointmentDate());
+
+        return query.getResultList();
     }
 }

@@ -79,17 +79,6 @@ public class VaccineManager implements IVaccineService {
         return query.getResultList();
     }
 
-    /*@Override
-    public List<Animal> getAnimalsByComingVaccines(AnimalVaccineDTO animalVaccineDTO) {
-        String queryString = "SELECT v FROM Vaccine v INNER JOIN Animal a ON a.animal_id= v.animal_vaccine_id WHERE v.protectionFinishDate > :start_date AND v.protectionFinishDate < :end_date";
-
-        Query query = entityManager.createQuery(queryString);
-        query.setParameter("start_date", animalVaccineDTO.getProtectionStartDate());
-        query.setParameter("end_date", animalVaccineDTO.getProtectionFinishDate());
-
-        return query.getResultList();
-    }*/
-
     public List<Animal> getAnimalsByComingVaccines(AnimalVaccineDTO animalVaccineDTO) {
         String queryString = "SELECT DISTINCT a FROM Animal a " +
                 "INNER JOIN Vaccine v ON a = v.animal " +
