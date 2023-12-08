@@ -44,7 +44,7 @@ public class Animal {
     @JsonIgnore
     private List<Vaccine> vaccine;
 
-    @OneToMany (mappedBy = "animal")
+    @OneToMany(mappedBy = "animal")
     @JsonIgnore
     private List<Appointment> appointment;
 

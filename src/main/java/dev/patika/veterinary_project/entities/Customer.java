@@ -39,5 +39,6 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
+
     private List<Animal> animalList;
 }

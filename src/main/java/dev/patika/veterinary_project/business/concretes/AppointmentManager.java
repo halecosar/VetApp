@@ -14,6 +14,7 @@ import jakarta.persistence.TypedQuery;
 import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -28,6 +29,10 @@ public class AppointmentManager implements IAppointmentService {
 
     @Override
     public Appointment save(Appointment appointment) {
+        LocalTime appointmentTime = appointment.getAppointmentDate().toLocalTime();
+        if (appointmentTime.getMinute() != 0 || appointmentTime.getSecond() != 0) {
+            throw new RuntimeException("Randevu sadece tam saatlerde alınabilir.");
+        }
         List<AvailableDate> availableDates = checkAvailableDatesByDoctor(appointment);
         if (availableDates.size() != 0) {
             List<Appointment> appointments = checkAppointmentsDatesByDoctor(appointment);
@@ -90,19 +95,29 @@ public class AppointmentManager implements IAppointmentService {
         query.setParameter("startDate", appointmentFilterByDoctorDTO.getStartDate());
         query.setParameter("endDate", appointmentFilterByDoctorDTO.getEndDate());
 
-        return query.getResultList();
+        if (appointmentFilterByDoctorDTO.getEndDate().isAfter(appointmentFilterByDoctorDTO.getStartDate())) {
+            return query.getResultList();
+        } else {
+            throw new RuntimeException("Giridiğiniz aralıktaki bitiş tarihi  başlangıç tarihinden küçük olamaz.");
+        }
+
+
     }
 
     @Override
     public List<Appointment> filterbyAnimal(AppointmentFilterByAnimalDTO appointmentFilterByAnimalDTO) {
-            String queryString = "SELECT a FROM Appointment a WHERE a.animal.id = :animal_id AND a.appointmentDate >= :startDate AND a.appointmentDate <= :endDate";
-            Query query = entityManager.createQuery(queryString);
-            query.setParameter("animal_id", appointmentFilterByAnimalDTO.getAnimalId());
-            query.setParameter("startDate", appointmentFilterByAnimalDTO.getStartDate());
-            query.setParameter("endDate", appointmentFilterByAnimalDTO.getEndDate());
-
+        String queryString = "SELECT a FROM Appointment a WHERE a.animal.id = :animal_id AND a.appointmentDate >= :startDate AND a.appointmentDate <= :endDate";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("animal_id", appointmentFilterByAnimalDTO.getAnimalId());
+        query.setParameter("startDate", appointmentFilterByAnimalDTO.getStartDate());
+        query.setParameter("endDate", appointmentFilterByAnimalDTO.getEndDate());
+        if (appointmentFilterByAnimalDTO.getEndDate().isAfter(appointmentFilterByAnimalDTO.getStartDate())) {
             return query.getResultList();
+        } else {
+            throw new RuntimeException("Giridiğiniz aralıktaki bitiş tarihi  başlangıç tarihinden küçük olamaz.");
         }
 
     }
+
+}
 
