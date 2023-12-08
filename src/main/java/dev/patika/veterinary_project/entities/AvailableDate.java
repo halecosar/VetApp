@@ -21,10 +21,10 @@ public class AvailableDate {
     @Column(name = "av_date_id")
     private Long id;
 
-    //@Temporal(TemporalType.TIMESTAMP)
+
     @Column(name = "av_date")
     @Temporal(TemporalType.DATE)
-    //@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
+    //Doktorun çalıştığı günler sisteme LocalDate olarak kaydedilecektir. Sadece tarih bilgisi olacaktır. Saat, dakika, saniye bilgisi olmayacaktır.
     private LocalDate availableDateDate;
 
     @ManyToOne

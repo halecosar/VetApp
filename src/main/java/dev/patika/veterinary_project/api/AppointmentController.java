@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//Hayvanların aşı ve muayene randevularının oluşturulması, bilgilerinin güncellenmesi, görüntülenmesi ve silinmesi
 @RestController
 @RequestMapping ("v1/appointments")
 public class AppointmentController {
@@ -42,11 +43,13 @@ public class AppointmentController {
         return this.appointmentService.getById(id);
     }
 
+    //Randevular kullanıcı tarafından girilen tarih aralığına ve doktora göre filtrelenmelidir. Buna ait API end point’i oluşturulmalıdır.
     @GetMapping("/filterbyDoctor")
     @ResponseStatus(HttpStatus.OK)
     public List<Appointment> filterbyDoctor(@RequestBody AppointmentFilterByDoctorDTO appointmentFilterByDoctorDTO) {
         return this.appointmentService.filterbyDoctor(appointmentFilterByDoctorDTO);
     }
+    // Randevular kullanıcı tarafından girilen tarih aralığına ve hayvana göre filtrelenmelidir.
     @GetMapping("/filterbyAnimal")
     @ResponseStatus(HttpStatus.OK)
     public List<Appointment> filterbyAnimal(@RequestBody AppointmentFilterByAnimalDTO appointmentFilterByAnimalDTO) {

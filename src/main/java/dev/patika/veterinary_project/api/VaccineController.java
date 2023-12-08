@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+//Hayvanlara uygulanan aşıları kaydetme, bilgilerini güncelleme, görüntüleme ve silme
 @RestController
 @RequestMapping ("v1/vaccines")
 public class VaccineController {
@@ -40,12 +40,14 @@ public class VaccineController {
         return this.vaccineService.getById(id);
     }
 
+    //Hayvan id’sine göre belirli bir hayvana ait tüm aşı kayıtlarını listelemek için gerekli API end point'ini oluşturmak.
     @GetMapping("/getVaccinesByAnimalId/{id}")
     @ResponseStatus(HttpStatus.OK)
     public List<Vaccine> getVaccinesByAnimalId(@PathVariable("id") Long id) {
         return this.vaccineService.getVaccinesByAnimalId(id);
     }
 
+    //Eğer hastaya ait aynı tip aşının (adı ve kodu aynı olan aşı) aşı koruyuculuk bitiş tarihi daha gelmemiş ise sisteme yeni aşı girilememelidir. Aşı kodlarından ve aşı bitiş tarihlerinden bunu kontrol edebilirsin.
     @GetMapping("/getAnimalsByComingVaccines")
     @ResponseStatus(HttpStatus.OK)
     public List<Animal> getAnimalsByComingVaccines(@RequestBody AnimalVaccineDTO animalVaccineDTO) {

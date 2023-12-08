@@ -4,7 +4,7 @@ import dev.patika.veterinary_project.business.abstracts.IDoctorService;
 import dev.patika.veterinary_project.entities.Doctor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+//Veteriner doktorların kaydedilmesi, bilgilerinin güncellenmesi, görüntülenmesi ve silinmesi
 @RestController
 @RequestMapping ("/v1/doctors") public class DoctorController {
     private final IDoctorService doctorService;

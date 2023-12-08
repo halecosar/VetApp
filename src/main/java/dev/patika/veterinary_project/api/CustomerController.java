@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+//Hayvan sahiplerini kaydetme, bilgilerini güncelleme, görüntüleme ve silme
 @RestController
 @RequestMapping("/v1/customers")
 public class CustomerController {
@@ -39,6 +39,8 @@ public class CustomerController {
         return this.customerService.getById(id);
     }
 
+
+    //Hayvan sahipleri isme göre filtrelenecek şekilde end point oluşturmak.
     @GetMapping("/getFilteredCustomerByName/{name}")
     @ResponseStatus(HttpStatus.OK)
     public List<Customer> getFilteredCustomerByName(@PathVariable("name") String name) {

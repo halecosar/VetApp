@@ -20,6 +20,7 @@ public class Appointment {
     @Column(name = "appointment_id")
     private Long id;
 
+    //Randevular sisteme tarih ve saat içerecek şekilde kaydedilmelidir. Bunun için LocalDateTime kullanılmalıdır.
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "appointment_date")
     private LocalDateTime appointmentDate;

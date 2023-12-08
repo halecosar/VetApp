@@ -4,7 +4,7 @@ import dev.patika.veterinary_project.business.abstracts.IAvailableDateService;
 import dev.patika.veterinary_project.entities.AvailableDate;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+//Doktorların müsait günlerini ekleme, bilgilerini güncelleme, görüntüleme ve silme
 @RestController
 @RequestMapping ("v1/availabledates") public class AvailableDateController {
     private final IAvailableDateService availableDateService;

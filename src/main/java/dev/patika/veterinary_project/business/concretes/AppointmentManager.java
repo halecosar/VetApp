@@ -28,10 +28,11 @@ public class AppointmentManager implements IAppointmentService {
     }
 
     @Override
+    //Randevu kaydı oluştururken doktorun girilen tarihte müsait günü olup olmadığı eğer ki müsait günü varsa randevu kayıtlarında girilen saatte başka bir randevusu olup olmadığı kontrol edilmelidir.
     public Appointment save(Appointment appointment) {
         LocalTime appointmentTime = appointment.getAppointmentDate().toLocalTime();
         if (appointmentTime.getMinute() != 0 || appointmentTime.getSecond() != 0) {
-            throw new RuntimeException("Randevu sadece tam saatlerde alınabilir.");
+            throw new RuntimeException("Randevu sadece tam saatlerde alınabilir."); //Hayvanların her türlü muayenesi için doktorlardan uygun tarihlerde ve saatlerde randevu oluşturulmalıdır. Her doktor için sadece saat başı randevu oluşturulabilir. Bir muayenenin sabit olarak bir saat süreceğini kabul edin.
         }
         List<AvailableDate> availableDates = checkAvailableDatesByDoctor(appointment);
         if (availableDates.size() != 0) {
