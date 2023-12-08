@@ -17,7 +17,12 @@ public class DoctorManager implements IDoctorService {
 
     @Override
     public Doctor save(Doctor doctor) {
-        return doctorRepo.save(doctor);
+        List<Doctor> doctors = doctorRepo.checkDoctorInfo(doctor.getMail(), doctor.getPhone());
+        if (doctors.size()>0){
+            throw  new RuntimeException("Bu bilgilere sahip doktor daha önce eklendi.");
+        }
+        else { return doctorRepo.save(doctor);}
+
     }
 
     @Override
