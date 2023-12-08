@@ -2,10 +2,14 @@ package dev.patika.veterinary_project.business.concretes;
 
 import dev.patika.veterinary_project.business.abstracts.IAppointmentService;
 import dev.patika.veterinary_project.dao.IAppointmentRepo;
+import dev.patika.veterinary_project.dto.request.AnimalVaccineDTO;
+import dev.patika.veterinary_project.dto.request.AppointmentFilterByDoctorDTO;
+import dev.patika.veterinary_project.entities.Animal;
 import dev.patika.veterinary_project.entities.Appointment;
 import dev.patika.veterinary_project.entities.AvailableDate;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +30,9 @@ public class AppointmentManager implements IAppointmentService {
         List<AvailableDate> availableDates = checkAvailableDatesByDoctor(appointment);
         if (availableDates.size() != 0) {
             List<Appointment> appointments = checkAppointmentsDatesByDoctor(appointment);
-            if (appointments.size() ==0){return this.appointmentRepo.save(appointment);}
-            else{
+            if (appointments.size() == 0) {
+                return this.appointmentRepo.save(appointment);
+            } else {
                 throw new RuntimeException("Doktorun bu satte başka bir randevusu mevcuttur");
             }
         } else {
@@ -55,6 +60,8 @@ public class AppointmentManager implements IAppointmentService {
         return this.appointmentRepo.findAll();
     }
 
+
+
     public List<AvailableDate> checkAvailableDatesByDoctor(Appointment appointment) {
         String queryString = "SELECT a FROM AvailableDate a WHERE a.doctor.id = :doctor_id AND a.availableDateDate = :available_date";
 
@@ -74,4 +81,16 @@ public class AppointmentManager implements IAppointmentService {
 
         return query.getResultList();
     }
+    
+    @Override
+    public List<Appointment> filterbyDoctor(AppointmentFilterByDoctorDTO appointmentFilterByDoctorDTO) {
+        String queryString = "SELECT a FROM Appointment a WHERE a.doctor.id = :doctor_id AND a.startDate >= :startDate AND a.endDate <= :endDate";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("doctor_id", appointmentFilterByDoctorDTO.getDoctorId());
+        query.setParameter("startDate", appointmentFilterByDoctorDTO.getStartDate());
+        query.setParameter("endDate", appointmentFilterByDoctorDTO.getEndDate());
+
+        return query.getResultList();
+    }
+
 }
