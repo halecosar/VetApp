@@ -3,6 +3,7 @@ package dev.patika.veterinary_project.business.concretes;
 import dev.patika.veterinary_project.business.abstracts.IAppointmentService;
 import dev.patika.veterinary_project.dao.IAppointmentRepo;
 import dev.patika.veterinary_project.dto.request.AnimalVaccineDTO;
+import dev.patika.veterinary_project.dto.request.AppointmentFilterByAnimalDTO;
 import dev.patika.veterinary_project.dto.request.AppointmentFilterByDoctorDTO;
 import dev.patika.veterinary_project.entities.Animal;
 import dev.patika.veterinary_project.entities.Appointment;
@@ -61,7 +62,6 @@ public class AppointmentManager implements IAppointmentService {
     }
 
 
-
     public List<AvailableDate> checkAvailableDatesByDoctor(Appointment appointment) {
         String queryString = "SELECT a FROM AvailableDate a WHERE a.doctor.id = :doctor_id AND a.availableDateDate = :available_date";
 
@@ -81,10 +81,10 @@ public class AppointmentManager implements IAppointmentService {
 
         return query.getResultList();
     }
-    
+
     @Override
     public List<Appointment> filterbyDoctor(AppointmentFilterByDoctorDTO appointmentFilterByDoctorDTO) {
-        String queryString = "SELECT a FROM Appointment a WHERE a.doctor.id = :doctor_id AND a.startDate >= :startDate AND a.endDate <= :endDate";
+        String queryString = "SELECT a FROM Appointment a WHERE a.doctor.id = :doctor_id AND a.appointmentDate >= :startDate AND a.appointmentDate <= :endDate";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("doctor_id", appointmentFilterByDoctorDTO.getDoctorId());
         query.setParameter("startDate", appointmentFilterByDoctorDTO.getStartDate());
@@ -93,4 +93,16 @@ public class AppointmentManager implements IAppointmentService {
         return query.getResultList();
     }
 
-}
+    @Override
+    public List<Appointment> filterbyAnimal(AppointmentFilterByAnimalDTO appointmentFilterByAnimalDTO) {
+            String queryString = "SELECT a FROM Appointment a WHERE a.animal.id = :animal_id AND a.appointmentDate >= :startDate AND a.appointmentDate <= :endDate";
+            Query query = entityManager.createQuery(queryString);
+            query.setParameter("animal_id", appointmentFilterByAnimalDTO.getAnimalId());
+            query.setParameter("startDate", appointmentFilterByAnimalDTO.getStartDate());
+            query.setParameter("endDate", appointmentFilterByAnimalDTO.getEndDate());
+
+            return query.getResultList();
+        }
+
+    }
+

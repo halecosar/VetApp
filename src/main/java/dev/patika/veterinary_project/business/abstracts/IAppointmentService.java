@@ -1,4 +1,5 @@
 package dev.patika.veterinary_project.business.abstracts;
+import dev.patika.veterinary_project.dto.request.AppointmentFilterByAnimalDTO;
 import dev.patika.veterinary_project.dto.request.AppointmentFilterByDoctorDTO;
 import dev.patika.veterinary_project.entities.Animal;
 import dev.patika.veterinary_project.entities.Appointment;
@@ -14,4 +15,5 @@ public interface IAppointmentService {
     List<Appointment> findAll();
 
     List<Appointment> filterbyDoctor(AppointmentFilterByDoctorDTO appointmentFilterByDoctorDTO);
+    public List<Appointment> filterbyAnimal(AppointmentFilterByAnimalDTO appointmentFilterByAnimalDTO);
 }
