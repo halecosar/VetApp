@@ -40,11 +40,11 @@ public class Animal {
     @Temporal(TemporalType.DATE)
     private LocalDate dateofBirth;
 
-    @OneToMany(mappedBy = "animal")
+    @OneToMany(mappedBy = "animal",cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Vaccine> vaccine;
 
-    @OneToMany(mappedBy = "animal")
+    @OneToMany(mappedBy = "animal",cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Appointment> appointment;
 
