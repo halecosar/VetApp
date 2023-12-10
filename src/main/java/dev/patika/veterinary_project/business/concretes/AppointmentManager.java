@@ -59,7 +59,7 @@ public class AppointmentManager implements IAppointmentService {
 
     @Override
     public Appointment getById(Long id) {
-        return this.appointmentRepo.findById(id).orElseThrow();
+        return this.appointmentRepo.findById(id).orElse(null);
     }
 
     @Override

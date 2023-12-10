@@ -39,7 +39,7 @@ public class DoctorManager implements IDoctorService {
 
     @Override
     public Doctor getById(Long id) {
-        return doctorRepo.findById(id).orElseThrow();
+        return doctorRepo.findById(id).orElse(null);
     }
 
     @Override

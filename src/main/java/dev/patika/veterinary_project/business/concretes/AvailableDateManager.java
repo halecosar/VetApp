@@ -47,7 +47,7 @@ public class AvailableDateManager implements IAvailableDateService {
 
     @Override
     public AvailableDate getById(Long id) {
-        return this.availableDateRepo.findById(id).orElseThrow();
+        return this.availableDateRepo.findById(id).orElse(null);
     }
 
     @Override

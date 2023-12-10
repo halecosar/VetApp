@@ -38,7 +38,7 @@ public class AnimalManager implements IAnimalService {
 
     @Override
     public Animal getById(Long id) {
-        return this.animalRepo.findById(id).orElseThrow();
+        return this.animalRepo.findById(id).orElse(null);
     }
 
     @Override

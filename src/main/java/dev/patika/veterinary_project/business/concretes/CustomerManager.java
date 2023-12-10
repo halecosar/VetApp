@@ -42,7 +42,7 @@ public class CustomerManager implements ICustomerService {
 
     @Override
     public Customer getById(Long id) {
-        return this.customerRepo.findById(id).orElseThrow();
+        return this.customerRepo.findById(id).orElse(null);
     }
 
     @Override

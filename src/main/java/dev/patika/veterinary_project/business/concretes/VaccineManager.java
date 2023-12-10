@@ -51,7 +51,7 @@ public class VaccineManager implements IVaccineService {
 
     @Override
     public Vaccine getById(Long id) {
-        return this.vaccineRepo.findById(id).orElseThrow();
+        return this.vaccineRepo.findById(id).orElse(null);
     }
 
     @Override
