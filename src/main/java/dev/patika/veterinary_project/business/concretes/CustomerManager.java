@@ -5,6 +5,7 @@ import dev.patika.veterinary_project.dao.ICustomerRepo;
 import dev.patika.veterinary_project.entities.Customer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,12 @@ public class CustomerManager implements ICustomerService {
 
     @Override
     public Customer save(Customer customer) {
-        return this.customerRepo.save(customer);
+        List<Customer> customers = customerRepo.checkCustomerInfo(customer.getMail(), customer.getPhone());
+        if (customers.size() > 0) {
+            throw new RuntimeException("Bu bilgilere sahip müşteri daha önce eklendi.");
+        } else {
+            return this.customerRepo.save(customer);
+        }
     }
 
     @Override
@@ -50,7 +56,7 @@ public class CustomerManager implements ICustomerService {
         String jpql = "SELECT c FROM CustomerEntity c WHERE c.name ILIKE :customerName";
 
         Query query = entityManager.createQuery(jpql, Customer.class);
-        query.setParameter("customerName",  "%" + name + "%");
+        query.setParameter("customerName", "%" + name + "%");
 
         return query.getResultList();
     }

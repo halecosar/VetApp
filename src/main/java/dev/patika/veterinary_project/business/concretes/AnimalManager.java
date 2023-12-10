@@ -20,7 +20,7 @@ public class AnimalManager implements IAnimalService {
         this.entityManager = entityManager;
     }
 
-    @Override
+    @Override // "Tüm yeni veri kaydetme işlemlerinde zaten var olan bir verinin kaydedilmediği kontrol edilmelidir." Hayvan için unique bir değer olmadığı için. (Aynı özelliklerde aynı hayvan olabilir).
     public Animal save(Animal animal) {
         return this.animalRepo.save(animal);
     }
