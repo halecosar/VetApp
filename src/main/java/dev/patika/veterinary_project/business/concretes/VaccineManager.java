@@ -39,7 +39,14 @@ public class VaccineManager implements IVaccineService {
 
     @Override
     public Vaccine update(Vaccine vaccine) {
-        return this.vaccineRepo.save(vaccine);
+        Vaccine checkVaccine = getById(vaccine.getId());
+        if (checkVaccine!=null){
+            return this.vaccineRepo.save(vaccine);
+        }
+        else {
+            throw new RuntimeException(vaccine.getId() + " id’li kayıt sistemde bulunamadı.");
+        }
+
     }
 
     @Override
@@ -49,7 +56,12 @@ public class VaccineManager implements IVaccineService {
 
     @Override
     public void delete(Long id) {
-        this.vaccineRepo.deleteById(id);
+        Vaccine checkVaccine= getById(id);
+        if (checkVaccine!=null){
+        this.vaccineRepo.deleteById(id);}
+        else {
+            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+        }
     }
 
     @Override

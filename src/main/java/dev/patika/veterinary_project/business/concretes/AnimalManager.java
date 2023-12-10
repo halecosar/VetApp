@@ -20,14 +20,20 @@ public class AnimalManager implements IAnimalService {
         this.entityManager = entityManager;
     }
 
-    @Override // "Tüm yeni veri kaydetme işlemlerinde zaten var olan bir verinin kaydedilmediği kontrol edilmelidir." Hayvan için unique bir değer olmadığı için. (Aynı özelliklerde aynı hayvan olabilir).
+    @Override
+    // "Tüm yeni veri kaydetme işlemlerinde zaten var olan bir verinin kaydedilmediği kontrol edilmelidir." Hayvan için unique bir değer olmadığı için. (Aynı özelliklerde aynı hayvan olabilir).
     public Animal save(Animal animal) {
         return this.animalRepo.save(animal);
     }
 
     @Override
     public Animal update(Animal animal) {
-        return this.animalRepo.save(animal);
+        Animal checkAnimal = getById(animal.getId());
+        if (checkAnimal != null) {
+            return this.animalRepo.save(animal);
+        } else {
+            throw new RuntimeException(animal.getId() + " id’li kayıt sistemde bulunamadı.");
+        }
     }
 
     @Override
@@ -37,8 +43,16 @@ public class AnimalManager implements IAnimalService {
 
     @Override
     public void delete(Long id) {
-this.animalRepo.deleteById(id);
+        Animal checkAnimal = getById(id);
+        if (checkAnimal!=null){
+            this.animalRepo.deleteById(id);
+        }
+        else{
+            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+        }
+
     }
+
 
     @Override
     public List<Animal> findAll() {
@@ -51,7 +65,7 @@ this.animalRepo.deleteById(id);
         String jpql = "SELECT a FROM Animal a WHERE a.name ILIKE :animalName";
 
         Query query = entityManager.createQuery(jpql, Customer.class);
-        query.setParameter("animalName",  "%" + name + "%");
+        query.setParameter("animalName", "%" + name + "%");
 
         return query.getResultList();
     }
@@ -62,7 +76,7 @@ this.animalRepo.deleteById(id);
         String jpql = "SELECT a FROM Animal a WHERE a.customer.id = :customer_id";
 
         Query query = entityManager.createQuery(jpql, Customer.class);
-        query.setParameter("customer_id", customerId );
+        query.setParameter("customer_id", customerId);
 
         return query.getResultList();
     }

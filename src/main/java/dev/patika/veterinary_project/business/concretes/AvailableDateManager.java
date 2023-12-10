@@ -37,7 +37,12 @@ public class AvailableDateManager implements IAvailableDateService {
 
     @Override
     public AvailableDate update(AvailableDate availableDate) {
-        return this.availableDateRepo.save(availableDate);
+        AvailableDate checkAvailableDate = getById(availableDate.getId());
+        if (checkAvailableDate!=null){
+        return this.availableDateRepo.save(availableDate);}
+        else {
+            throw new RuntimeException(availableDate.getId() + " id’li kayıt sistemde bulunamadı.");
+        }
     }
 
     @Override
@@ -47,7 +52,12 @@ public class AvailableDateManager implements IAvailableDateService {
 
     @Override
     public void delete(Long id) {
-        this.availableDateRepo.deleteById(id);
+        AvailableDate checkAvailableDate = getById(id);
+        if (checkAvailableDate!=null){
+        this.availableDateRepo.deleteById(id);}
+        else{
+            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+        }
     }
 
     @Override

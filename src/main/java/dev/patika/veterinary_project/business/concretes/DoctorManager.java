@@ -18,16 +18,23 @@ public class DoctorManager implements IDoctorService {
     @Override
     public Doctor save(Doctor doctor) {
         List<Doctor> doctors = doctorRepo.checkDoctorInfo(doctor.getMail(), doctor.getPhone());
-        if (doctors.size()>0){
-            throw  new RuntimeException("Bu bilgilere sahip doktor daha önce eklendi.");
+        if (doctors.size() > 0) {
+            throw new RuntimeException("Bu bilgilere sahip doktor daha önce eklendi.");
+        } else {
+            return doctorRepo.save(doctor);
         }
-        else { return doctorRepo.save(doctor);}
 
     }
 
     @Override
     public Doctor update(Doctor doctor) {
-        return doctorRepo.save(doctor);
+        Doctor checkDoctor = getById(doctor.getId());
+        if (checkDoctor != null) {
+
+            return doctorRepo.save(doctor);
+        } else {
+            throw new RuntimeException(doctor.getId() + " id’li kayıt sistemde bulunamadı.");
+        }
     }
 
     @Override
@@ -37,7 +44,12 @@ public class DoctorManager implements IDoctorService {
 
     @Override
     public void delete(Long id) {
-        this.doctorRepo.deleteById(id);
+        Doctor checkDoctor = getById(id);
+        if (checkDoctor != null) {
+            this.doctorRepo.deleteById(id);
+        } else {
+            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+        }
     }
 
     @Override

@@ -49,7 +49,12 @@ public class AppointmentManager implements IAppointmentService {
 
     @Override
     public Appointment update(Appointment appointment) {
-        return this.appointmentRepo.save(appointment);
+        Appointment checkAppointment = getById(appointment.getId());
+        if (checkAppointment!=null){
+        return this.appointmentRepo.save(appointment);}
+        else {
+            throw new RuntimeException(appointment.getId() + " id’li kayıt sistemde bulunamadı.");
+        }
     }
 
     @Override
@@ -59,7 +64,12 @@ public class AppointmentManager implements IAppointmentService {
 
     @Override
     public void delete(Long id) {
-        this.appointmentRepo.deleteById(id);
+        Appointment checkAppoitment = getById(id);
+        if (checkAppoitment!= null){
+            this.appointmentRepo.deleteById(id);
+        }
+        else   throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+
     }
 
     @Override

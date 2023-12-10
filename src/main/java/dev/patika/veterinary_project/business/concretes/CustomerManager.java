@@ -32,7 +32,12 @@ public class CustomerManager implements ICustomerService {
 
     @Override
     public Customer update(Customer customer) {
-        return this.customerRepo.save(customer);
+        Customer checkCustomer = getById(customer.getId());
+        if (checkCustomer!=null){
+        return this.customerRepo.save(customer);}
+        else {
+            throw new RuntimeException(customer.getId() + " id’li kayıt sistemde bulunamadı.");
+        }
     }
 
     @Override
@@ -42,7 +47,12 @@ public class CustomerManager implements ICustomerService {
 
     @Override
     public void delete(Long id) {
-        this.customerRepo.deleteById(id);
+        Customer checkCustomer = getById(id);
+        if (checkCustomer!=null){
+        this.customerRepo.deleteById(id);}
+        else {
+            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+        }
     }
 
     @Override
