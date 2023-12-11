@@ -34,7 +34,7 @@ public class Vaccine {
     @Temporal(TemporalType.DATE)
     private LocalDate protectionFinishDate;
 
-    @ManyToOne
+    @ManyToOne  (fetch = FetchType.EAGER)
     @JoinColumn(name = "animal_vaccine_id", referencedColumnName = "animal_id")
     private Animal animal;
 }

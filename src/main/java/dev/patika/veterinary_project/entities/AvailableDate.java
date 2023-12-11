@@ -27,7 +27,7 @@ public class AvailableDate {
     //Doktorun çalıştığı günler sisteme LocalDate olarak kaydedilecektir. Sadece tarih bilgisi olacaktır. Saat, dakika, saniye bilgisi olmayacaktır.
     private LocalDate availableDateDate;
 
-    @ManyToOne
+    @ManyToOne  (fetch = FetchType.EAGER)
     @JoinColumn(name = "availabledate_doctor_id", referencedColumnName = "doctor_id")
     private Doctor doctor;
 }

@@ -40,15 +40,15 @@ public class Animal {
     @Temporal(TemporalType.DATE)
     private LocalDate dateofBirth;
 
-    @OneToMany(mappedBy = "animal",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "animal",cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Vaccine> vaccine;
 
-    @OneToMany(mappedBy = "animal",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "animal",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Appointment> appointment;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "animal_customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 

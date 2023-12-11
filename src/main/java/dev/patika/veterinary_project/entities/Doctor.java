@@ -37,11 +37,11 @@ public class Doctor {
     @Column(name = "doctor_city")
     private String city;
 
-    @OneToMany (mappedBy = "doctor", cascade = CascadeType.REMOVE)
+    @OneToMany (mappedBy = "doctor", cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Appointment> appointmentList;
 
-    @OneToMany (mappedBy = "doctor" ,cascade = CascadeType.REMOVE)
+    @OneToMany (mappedBy = "doctor" ,cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     @JsonIgnore
     private List<AvailableDate> availableDateList;
 }

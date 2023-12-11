@@ -3,11 +3,13 @@ package dev.patika.veterinary_project.business.concretes;
 import dev.patika.veterinary_project.business.abstracts.ICustomerService;
 import dev.patika.veterinary_project.dao.ICustomerRepo;
 import dev.patika.veterinary_project.entities.Customer;
+import dev.patika.veterinary_project.entities.Doctor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
 import java.util.List;
 
 @Service
@@ -32,27 +34,27 @@ public class CustomerManager implements ICustomerService {
 
     @Override
     public Customer update(Customer customer) {
-        Customer checkCustomer = getById(customer.getId());
-        if (checkCustomer!=null){
-        return this.customerRepo.save(customer);}
-        else {
-            throw new RuntimeException(customer.getId() + " id’li kayıt sistemde bulunamadı.");
-        }
+        getById(customer.getId());
+        return this.customerRepo.save(customer);
+
+
     }
 
     @Override
     public Customer getById(Long id) {
-        return this.customerRepo.findById(id).orElse(null);
+        Customer customer = this.customerRepo.findById(id).orElse(null);
+        if (customer == null) {
+            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+        } else {
+            return customer;
+        }
     }
 
     @Override
     public void delete(Long id) {
-        Customer checkCustomer = getById(id);
-        if (checkCustomer!=null){
-        this.customerRepo.deleteById(id);}
-        else {
-            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
-        }
+       getById(id);
+       this.customerRepo.deleteById(id);
+   
     }
 
     @Override
@@ -63,7 +65,7 @@ public class CustomerManager implements ICustomerService {
     @Override
     public List<Customer> getFilteredCustomerByName(String name) {
         // JPQL sorgusu ile isme göre filtreleme
-        String jpql = "SELECT c FROM CustomerEntity c WHERE c.name ILIKE :customerName";
+        String jpql = "SELECT c FROM Customer c WHERE c.name ILIKE :customerName";
 
         Query query = entityManager.createQuery(jpql, Customer.class);
         query.setParameter("customerName", "%" + name + "%");

@@ -28,28 +28,25 @@ public class DoctorManager implements IDoctorService {
 
     @Override
     public Doctor update(Doctor doctor) {
-        Doctor checkDoctor = getById(doctor.getId());
-        if (checkDoctor != null) {
-
-            return doctorRepo.save(doctor);
-        } else {
-            throw new RuntimeException(doctor.getId() + " id’li kayıt sistemde bulunamadı.");
-        }
+        getById(doctor.getId());
+        return doctorRepo.save(doctor);
     }
 
     @Override
     public Doctor getById(Long id) {
-        return doctorRepo.findById(id).orElse(null);
+
+        Doctor doctor = doctorRepo.findById(id).orElse(null);
+        if (doctor == null) {
+            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+        } else {
+            return doctor;
+        }
     }
 
     @Override
     public void delete(Long id) {
-        Doctor checkDoctor = getById(id);
-        if (checkDoctor != null) {
-            this.doctorRepo.deleteById(id);
-        } else {
-            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
-        }
+        getById(id);
+        this.doctorRepo.deleteById(id);
     }
 
     @Override
