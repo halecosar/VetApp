@@ -38,19 +38,18 @@ public class AnimalManager implements IAnimalService {
 
     @Override
     public Animal getById(Long id) {
-        return this.animalRepo.findById(id).orElse(null);
+        Animal animal = this.animalRepo.findById(id).orElse(null);
+        if (animal == null) {
+            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+        } else {
+            return animal;
+        }
     }
 
     @Override
     public void delete(Long id) {
-        Animal checkAnimal = getById(id);
-        if (checkAnimal!=null){
-            this.animalRepo.deleteById(id);
-        }
-        else{
-            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
-        }
-
+        getById(id);
+        this.animalRepo.deleteById(id);
     }
 
 

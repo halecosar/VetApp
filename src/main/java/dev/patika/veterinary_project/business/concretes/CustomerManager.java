@@ -54,7 +54,7 @@ public class CustomerManager implements ICustomerService {
     public void delete(Long id) {
        getById(id);
        this.customerRepo.deleteById(id);
-   
+
     }
 
     @Override

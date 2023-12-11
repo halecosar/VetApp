@@ -39,30 +39,27 @@ public class VaccineManager implements IVaccineService {
 
     @Override
     public Vaccine update(Vaccine vaccine) {
-        Vaccine checkVaccine = getById(vaccine.getId());
-        if (checkVaccine!=null){
-            return this.vaccineRepo.save(vaccine);
-        }
-        else {
-            throw new RuntimeException(vaccine.getId() + " id’li kayıt sistemde bulunamadı.");
-        }
-
+      getById(vaccine.getId());
+      return this.vaccineRepo.save(vaccine);
     }
 
     @Override
     public Vaccine getById(Long id) {
-        return this.vaccineRepo.findById(id).orElse(null);
+        Vaccine vaccine = this.vaccineRepo.findById(id).orElse(null);
+        if (vaccine == null) {
+            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
+        } else {
+            return vaccine;
+        }
+
     }
 
     @Override
     public void delete(Long id) {
-        Vaccine checkVaccine= getById(id);
-        if (checkVaccine!=null){
-        this.vaccineRepo.deleteById(id);}
-        else {
-            throw new RuntimeException(id + " id’li kayıt sistemde bulunamadı.");
-        }
+        getById(id);
+        this.vaccineRepo.deleteById(id);
     }
+
 
     @Override
     public List<Vaccine> findAll() {
