@@ -12,6 +12,9 @@ import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +31,15 @@ public class VaccineManager implements IVaccineService {
 
     @Override
     public Vaccine save(Vaccine vaccine) {
+
+        if (!vaccine.getProtectionFinishDate().isAfter(vaccine.getProtectionStartDate())) {
+            throw new RuntimeException("Girdiğiniz aralıktaki bitiş tarihi  başlangıç tarihinden küçük olamaz.");
+        }
+
+        if (LocalDate.now().isAfter(vaccine.getProtectionFinishDate())) {
+            throw new RuntimeException("Koruyuculuk bitiş tarihi bugünden geride olan aşı eklenemez.");
+        }
+
         List<Vaccine> vaccines = checkVaccineByAnimal(vaccine);
         if (vaccines.size() == 0) {
             return this.vaccineRepo.save(vaccine);
@@ -39,8 +51,8 @@ public class VaccineManager implements IVaccineService {
 
     @Override
     public Vaccine update(Vaccine vaccine) {
-      getById(vaccine.getId());
-      return this.vaccineRepo.save(vaccine);
+        getById(vaccine.getId());
+        return this.vaccineRepo.save(vaccine);
     }
 
     @Override
