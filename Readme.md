@@ -1,4 +1,6 @@
 Veterinary Management System
+
+
 This project involves the development of an API that enables a veterinary clinic to manage its own operations.
 
 The application is intended for use by veterinary clinic staff. With this application, the staff can:
