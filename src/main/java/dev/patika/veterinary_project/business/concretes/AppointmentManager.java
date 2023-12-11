@@ -1,17 +1,17 @@
 package dev.patika.veterinary_project.business.concretes;
 
 import dev.patika.veterinary_project.business.abstracts.IAppointmentService;
+import dev.patika.veterinary_project.dao.IAnimalRepo;
 import dev.patika.veterinary_project.dao.IAppointmentRepo;
-import dev.patika.veterinary_project.dto.request.AnimalVaccineDTO;
+import dev.patika.veterinary_project.dao.IDoctorRepo;
 import dev.patika.veterinary_project.dto.request.AppointmentFilterByAnimalDTO;
 import dev.patika.veterinary_project.dto.request.AppointmentFilterByDoctorDTO;
 import dev.patika.veterinary_project.entities.Animal;
 import dev.patika.veterinary_project.entities.Appointment;
 import dev.patika.veterinary_project.entities.AvailableDate;
+import dev.patika.veterinary_project.entities.Doctor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
-import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -20,20 +20,28 @@ import java.util.List;
 @Service
 public class AppointmentManager implements IAppointmentService {
     private final IAppointmentRepo appointmentRepo;
+    private final IDoctorRepo doctorRepo;
+
+    private final IAnimalRepo animalRepo;
     private final EntityManager entityManager;
 
-    public AppointmentManager(IAppointmentRepo appointmentRepo, EntityManager entityManager) {
+
+    public AppointmentManager(IAppointmentRepo appointmentRepo, IDoctorRepo doctorRepo, IAnimalRepo animalRepo, EntityManager entityManager) {
         this.appointmentRepo = appointmentRepo;
+        this.doctorRepo = doctorRepo;
+        this.animalRepo = animalRepo;
         this.entityManager = entityManager;
     }
 
     @Override
     //Randevu kaydı oluştururken doktorun girilen tarihte müsait günü olup olmadığı eğer ki müsait günü varsa randevu kayıtlarında girilen saatte başka bir randevusu olup olmadığı kontrol edilmelidir.
     public Appointment save(Appointment appointment) {
+
         LocalTime appointmentTime = appointment.getAppointmentDate().toLocalTime();
         if (appointmentTime.getMinute() != 0 || appointmentTime.getSecond() != 0) {
             throw new RuntimeException("Randevu sadece tam saatlerde alınabilir."); //Hayvanların her türlü muayenesi için doktorlardan uygun tarihlerde ve saatlerde randevu oluşturulmalıdır. Her doktor için sadece saat başı randevu oluşturulabilir. Bir muayenenin sabit olarak bir saat süreceğini kabul edin.
         }
+
         List<AvailableDate> availableDates = checkAvailableDatesByDoctor(appointment);
         if (availableDates.size() != 0) {
             List<Appointment> appointments = checkAppointmentsDatesByDoctor(appointment);
@@ -117,17 +125,18 @@ public class AppointmentManager implements IAppointmentService {
 
     @Override
     public List<Appointment> filterbyAnimal(AppointmentFilterByAnimalDTO appointmentFilterByAnimalDTO) {
+
+        if (!appointmentFilterByAnimalDTO.getEndDate().isAfter(appointmentFilterByAnimalDTO.getStartDate())) {
+            throw new RuntimeException("Giridiğiniz aralıktaki bitiş tarihi  başlangıç tarihinden küçük olamaz.");
+        }
+
         String queryString = "SELECT a FROM Appointment a WHERE a.animal.id = :animal_id AND a.appointmentDate >= :startDate AND a.appointmentDate <= :endDate";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("animal_id", appointmentFilterByAnimalDTO.getAnimalId());
         query.setParameter("startDate", appointmentFilterByAnimalDTO.getStartDate());
         query.setParameter("endDate", appointmentFilterByAnimalDTO.getEndDate());
-        if (appointmentFilterByAnimalDTO.getEndDate().isAfter(appointmentFilterByAnimalDTO.getStartDate())) {
-            return query.getResultList();
-        } else {
-            throw new RuntimeException("Giridiğiniz aralıktaki bitiş tarihi  başlangıç tarihinden küçük olamaz.");
-        }
 
+        return query.getResultList();
     }
 
 }
